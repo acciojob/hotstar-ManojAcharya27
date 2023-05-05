@@ -27,6 +27,7 @@ public class SubscriptionService {
 
         //Save The subscription Object into the Db and return the total Amount that user has to pay
 
+        User user=userRepository.findById(subscriptionEntryDto.getUserId()).get();
         Subscription subscription=new Subscription();
         subscription.setSubscriptionType(subscriptionEntryDto.getSubscriptionType());
         subscription.setUser(userRepository.findById(subscriptionEntryDto.getUserId()).get());
@@ -40,7 +41,7 @@ public class SubscriptionService {
         }else
             totalAmount=1000+(subscriptionEntryDto.getNoOfScreensRequired()*350);
         subscription.setTotalAmountPaid(totalAmount);
-        subscriptionRepository.save(subscription);
+        userRepository.save(user);
         return totalAmount;
     }
 
