@@ -40,14 +40,14 @@ public class UserService {
         int count = 0;
         if (user.getSubscription().equals(SubscriptionType.ELITE)) {
             for (WebSeries webSeries : webSeriesList) {
-                if (user.getAge() > webSeries.getAgeLimit()) {
+                if (user.getAge() >= webSeries.getAgeLimit()) {
                     count++;
                 }
             }
             return count;
         } else if (user.getSubscription().equals(SubscriptionType.PRO)) {
             for (WebSeries webSeries : webSeriesList) {
-                if (user.getAge() > webSeries.getAgeLimit() && webSeries.getSubscriptionType() != SubscriptionType.ELITE) {
+                if (user.getAge() >= webSeries.getAgeLimit() && webSeries.getSubscriptionType() != SubscriptionType.ELITE) {
                     count++;
                 }
             }
@@ -55,7 +55,7 @@ public class UserService {
             return count;
         } else
             for (WebSeries webSeries : webSeriesList) {
-                if (user.getAge() > webSeries.getAgeLimit() && webSeries.getSubscriptionType().equals(SubscriptionType.BASIC)) {
+                if (user.getAge() >= webSeries.getAgeLimit() && webSeries.getSubscriptionType().equals(SubscriptionType.BASIC)) {
                     count++;
                 }
             }
