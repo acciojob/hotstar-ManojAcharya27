@@ -99,7 +99,6 @@ public class SubscriptionService {
         }   else{
             plan=1000+350*noOfScreen;
         }
-
         return plan;
     }
 
