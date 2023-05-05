@@ -42,6 +42,7 @@ public class SubscriptionService {
             totalAmount=1000+(subscriptionEntryDto.getNoOfScreensRequired()*350);
         subscription.setTotalAmountPaid(totalAmount);
         userRepository.save(user);
+
         return totalAmount;
     }
 
