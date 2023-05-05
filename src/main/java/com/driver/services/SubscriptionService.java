@@ -61,7 +61,9 @@ public class SubscriptionService {
             int totalAmountOfPreviouslyPaid=subscription.getTotalAmountPaid();
             int remainingAmount=totalAmountRequiredForElite-totalAmountOfPreviouslyPaid;
             subscription.setTotalAmountPaid(totalAmountRequiredForElite);
+            user.setSubscription(subscription);
             subscriptionRepository.save(subscription);
+            userRepository.save(user);
             return remainingAmount;
         }else{
             int screenRequired=subscription.getNoOfScreensSubscribed();
@@ -69,6 +71,8 @@ public class SubscriptionService {
             int totalAmountOfPreviouslyPaid=subscription.getTotalAmountPaid();
             int remainingAmount=totalAmountRequiredForElite-totalAmountOfPreviouslyPaid;
             subscription.setTotalAmountPaid(totalAmountRequiredForElite);
+            user.setSubscription(subscription);
+            userRepository.save(user);
             subscriptionRepository.save(subscription);
             return remainingAmount;
         }
