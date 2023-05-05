@@ -22,6 +22,7 @@ public class SubscriptionService {
     @Autowired
     UserRepository userRepository;
 
+
     public Integer buySubscription(SubscriptionEntryDto subscriptionEntryDto){
 
         //Save The subscription Object into the Db and return the total Amount that user has to pay
@@ -48,35 +49,29 @@ public class SubscriptionService {
         //If you are already at an ElITE subscription : then throw Exception ("Already the best Subscription")
         //In all other cases just try to upgrade the subscription and tell the difference of price that user has to pay
         //update the subscription in the repository
-
         User user=userRepository.findById(userId).get();
         Subscription subscription=user.getSubscription();
+
         if(subscription.getSubscriptionType().equals(SubscriptionType.ELITE)){
             throw new Exception("Already the best Subscription");
-
-        }
-        else if(subscription.getSubscriptionType().equals(SubscriptionType.BASIC)){
-            int screenRequired=subscription.getNoOfScreensSubscribed();
-            int totalAmountRequiredForElite=1000+(screenRequired*350);
-            int totalAmountOfPreviouslyPaid=subscription.getTotalAmountPaid();
-            int remainingAmount=totalAmountRequiredForElite-totalAmountOfPreviouslyPaid;
-            subscription.setTotalAmountPaid(totalAmountRequiredForElite);
-            user.setSubscription(subscription);
-            subscriptionRepository.save(subscription);
-            userRepository.save(user);
-            return remainingAmount;
-        }else{
-            int screenRequired=subscription.getNoOfScreensSubscribed();
-            int totalAmountRequiredForElite=1000+(screenRequired*350);
-            int totalAmountOfPreviouslyPaid=subscription.getTotalAmountPaid();
-            int remainingAmount=totalAmountRequiredForElite-totalAmountOfPreviouslyPaid;
-            subscription.setTotalAmountPaid(totalAmountRequiredForElite);
-            user.setSubscription(subscription);
-            userRepository.save(user);
-            subscriptionRepository.save(subscription);
-            return remainingAmount;
         }
 
+        int currPlan=subscription.getTotalAmountPaid();
+
+        if(subscription.getSubscriptionType().equals(SubscriptionType.BASIC)){
+            int plan = plan(subscription.getNoOfScreensSubscribed(),SubscriptionType.PRO);
+            subscription.setTotalAmountPaid(plan);
+            subscription.setSubscriptionType(SubscriptionType.PRO);
+        } else  {
+            int plan = plan(subscription.getNoOfScreensSubscribed(),SubscriptionType.ELITE);
+            subscription.setTotalAmountPaid(plan);
+            subscription.setSubscriptionType(SubscriptionType.ELITE);
+        }
+
+        user.setSubscription(subscription);
+
+
+        return subscription.getTotalAmountPaid()-currPlan;
 
     }
 
@@ -90,6 +85,20 @@ public class SubscriptionService {
             totalRevenue+=subscription.getTotalAmountPaid();
         }
         return totalRevenue;
+    }
+
+    public int plan(int noOfScreen,SubscriptionType subType){
+        int plan;
+        if(subType.equals(SubscriptionType.BASIC)){
+            plan=500+200*noOfScreen;
+        }
+        if(subType.equals(SubscriptionType.PRO)){
+            plan=800+250*noOfScreen;
+        }   else{
+            plan=1000+350*noOfScreen;
+        }
+
+        return plan;
     }
 
 }
