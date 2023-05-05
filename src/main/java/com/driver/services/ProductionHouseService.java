@@ -20,7 +20,7 @@ public class ProductionHouseService {
         ProductionHouse productionHouse=new ProductionHouse();
         productionHouse.setName(productionHouseEntryDto.getName());
         productionHouse.setRatings(0);
-        productionHouse.setWebSeriesList(new ArrayList<>());
+        //productionHouse.setWebSeriesList(new ArrayList<>());
         productionHouseRepository.save(productionHouse);
 
 

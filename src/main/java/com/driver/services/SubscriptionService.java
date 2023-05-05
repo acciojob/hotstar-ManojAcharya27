@@ -33,9 +33,9 @@ public class SubscriptionService {
         int totalAmount=0;
        // totalAmount=subscriptionEntryDto.getNoOfScreensRequired();
         if(subscriptionEntryDto.getSubscriptionType().equals(SubscriptionType.BASIC)){
-            totalAmount+=500+200;
+            totalAmount+=500+(200*subscriptionEntryDto.getNoOfScreensRequired());
         }else if(subscriptionEntryDto.getSubscriptionType().equals(SubscriptionType.PRO)){
-            totalAmount+=800+250;
+            totalAmount+=800+(250*subscriptionEntryDto.getNoOfScreensRequired());
         }else
             totalAmount=1000+(subscriptionEntryDto.getNoOfScreensRequired()*350);
         subscription.setTotalAmountPaid(totalAmount);
