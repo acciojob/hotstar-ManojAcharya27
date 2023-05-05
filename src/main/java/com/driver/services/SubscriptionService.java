@@ -41,6 +41,8 @@ public class SubscriptionService {
         }else
             totalAmount=1000+(subscriptionEntryDto.getNoOfScreensRequired()*350);
         subscription.setTotalAmountPaid(totalAmount);
+
+        user.setSubscription(subscription);
         userRepository.save(user);
 
         return totalAmount;
