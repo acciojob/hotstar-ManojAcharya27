@@ -21,10 +21,10 @@ public class ProductionHouseService {
         productionHouse.setName(productionHouseEntryDto.getName());
         productionHouse.setRatings(0.0);
         //productionHouse.setWebSeriesList(new ArrayList<>());
-        productionHouseRepository.save(productionHouse);
+        ProductionHouse savedProductionHose=productionHouseRepository.save(productionHouse);
 
 
-        return  productionHouse.getId();
+        return  savedProductionHose.getId();
     }
 
 
