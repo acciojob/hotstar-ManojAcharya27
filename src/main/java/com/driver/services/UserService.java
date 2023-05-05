@@ -38,27 +38,18 @@ public class UserService {
         User user = userRepository.findById(userId).get();
         List<WebSeries> webSeriesList = webSeriesRepository.findAll();
         int count = 0;
-        if (user.getSubscription().equals(SubscriptionType.ELITE)) {
-            for (WebSeries webSeries : webSeriesList) {
-                if (user.getAge() >= webSeries.getAgeLimit()) {
-                    count++;
-                }
-            }
-            return count;
-        } else if (user.getSubscription().equals(SubscriptionType.PRO)) {
-            for (WebSeries webSeries : webSeriesList) {
-                if (user.getAge() >= webSeries.getAgeLimit() && webSeries.getSubscriptionType() != SubscriptionType.ELITE) {
-                    count++;
-                }
-            }
-
-            return count;
-        } else
-            for (WebSeries webSeries : webSeriesList) {
-                if (user.getAge() >= webSeries.getAgeLimit() && webSeries.getSubscriptionType().equals(SubscriptionType.BASIC)) {
-                    count++;
-                }
-            }
-        return count;
+       for(WebSeries series: webSeriesList){
+           if(series.getAgeLimit()<=user.getAge()&&user.getSubscription().getSubscriptionType()==SubscriptionType.ELITE){
+               count++;
+           }
+           else if(series.getAgeLimit()<=user.getAge()&&user.getSubscription().getSubscriptionType()==SubscriptionType.PRO&&
+                   (series.getSubscriptionType()==SubscriptionType.PRO||series.getSubscriptionType()==SubscriptionType.BASIC)){
+               count++;
+           } else if (series.getAgeLimit()<=user.getAge()&&user.getSubscription().getSubscriptionType()==SubscriptionType.BASIC&&
+                   (series.getSubscriptionType()==SubscriptionType.BASIC)) {
+               count++;
+           }
+       }
+       return  count;
     }
 }
